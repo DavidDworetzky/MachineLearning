@@ -31,4 +31,31 @@ sigma = 0.3;
 
 % =========================================================================
 
+%create a results matrix
+results = eye(64,3);
+error = 0;
+%for our possible values of c, and sigma
+for C_Sample = [0.01 0.03 0.1 0.3 1, 3, 10 30]
+    for sigma_Sample = [0.01 0.03 0.1 0.3 1, 3, 10 30]
+        %increment the error count
+        error = error + 1;
+        model = svmTrain(X, y, C_Sample, @(x1, x2) gaussianKernel(x1, x2, sigma_Sample));
+        
+        predictions = svmPredict(model, Xval);
+        prediction_error = mean(double(predictions ~= yval));
+
+        results(error,:) = [C_Sample, sigma_Sample, prediction_error];     
+    end
+end
+
+sorted = sortrows(results, 3); % sort our matrix by columns 
+
+%C is the optimal result
+C = sorted(1,1);
+%sigma is the optimal sigma
+sigma = sorted(1,2);
+
+
+
+
 end

@@ -47,9 +47,12 @@ x = zeros(n, 1);
 %              x = [ 0 0 0 0 1 0 0 0 ... 0 0 0 0 1 ... 0 0 0 1 0 ..];
 %
 %
-
-
-
+%m is the size of our word indices vector
+m = size(word_indices);
+for i=1:m
+    %assign 1 to the vector if it is contained in the dictionary
+    x(word_indices(i)) = 1;
+end
 
 
 
